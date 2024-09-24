@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "rooms",
+  "info": {
+    "singularName": "room",
+    "pluralName": "rooms",
+    "displayName": "Room"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "availableSeats": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    },
+    "roomType": {
+      "type": "enumeration",
+      "enum": [
+        "LAB",
+        "MEETING",
+        "AMPHI"
+      ]
+    },
+    "booking": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::translation.translation",
+      "mappedBy": "room"
+    },
+    "building": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::building.building",
+      "inversedBy": "rooms"
+    }
+  }
+}

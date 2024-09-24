@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "app_users",
+  "info": {
+    "singularName": "app-user",
+    "pluralName": "app-users",
+    "displayName": "App_User",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "app_roles": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::app-role.app-role",
+      "mappedBy": "app_user"
+    }
+  }
+}
