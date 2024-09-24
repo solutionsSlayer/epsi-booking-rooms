@@ -17,6 +17,12 @@
       "relation": "oneToOne",
       "target": "api::room.room",
       "inversedBy": "booking"
+    },
+    "app_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::app-user.app-user",
+      "inversedBy": "bookings"
     }
   }
 }

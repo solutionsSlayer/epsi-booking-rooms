@@ -6,4 +6,25 @@
 
 const { createCoreRouter } = require('@strapi/strapi').factories;
 
-module.exports = createCoreRouter('api::room.room');
+module.exports = {
+  routes: [
+    {
+      method: 'GET',
+      path: '/rooms',
+      handler: 'room.find',
+      config: {
+        policies: [],
+        middlewares: [],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/rooms',
+      handler: 'room.create',
+      config: {
+        policies: [],
+        middlewares: [],
+      },
+    },
+  ],
+};

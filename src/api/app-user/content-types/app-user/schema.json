@@ -20,6 +20,12 @@
       "relation": "oneToMany",
       "target": "api::app-role.app-role",
       "mappedBy": "app_user"
+    },
+    "bookings": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::translation.translation",
+      "mappedBy": "app_user"
     }
   }
 }
