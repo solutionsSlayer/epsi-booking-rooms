@@ -44,5 +44,14 @@ module.exports = {
         middlewares: [],
       },
     },
+    {
+        method: 'POST',
+        path: '/seed',
+        handler: 'building.seed',
+        config: {
+          policies: [],
+          middlewares: [],
+        },
+    },
   ],
 };

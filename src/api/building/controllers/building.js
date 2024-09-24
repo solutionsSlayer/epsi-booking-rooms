@@ -19,11 +19,14 @@ module.exports = createCoreController('api::building.building', ({ strapi }) => 
 
     ctx.send(building);
   },
-
   async findAll(ctx) {
     // Fetch all building records using the building service
     const buildings = await strapi.service('api::building.building').findAll();
 
+    ctx.send(buildings);
+  },
+  async seed(ctx) {
+    const buildings = await strapi.service('api::building.building').seed();
     ctx.send(buildings);
   },
 }));
