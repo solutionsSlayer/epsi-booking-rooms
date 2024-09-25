@@ -4,27 +4,26 @@
   "info": {
     "singularName": "app-user",
     "pluralName": "app-users",
-    "displayName": "App_User",
-    "description": ""
+    "displayName": "App_User"
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
+    "app_role": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::app-role.app-role",
+      "inversedBy": "app_users"
+    },
     "name": {
       "type": "string"
     },
-    "app_roles": {
+    "booking": {
       "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::app-role.app-role",
-      "mappedBy": "app_user"
-    },
-    "bookings": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::translation.translation",
+      "relation": "oneToOne",
+      "target": "api::booking.booking",
       "mappedBy": "app_user"
     }
   }

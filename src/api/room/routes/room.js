@@ -10,17 +10,8 @@ module.exports = {
   routes: [
     {
       method: 'GET',
-      path: '/rooms',
-      handler: 'room.find',
-      config: {
-        policies: [],
-        middlewares: [],
-      },
-    },
-    {
-      method: 'POST',
-      path: '/rooms',
-      handler: 'room.create',
+      path: '/rooms/available',
+      handler: 'room.getAvailableRooms',
       config: {
         policies: [],
         middlewares: [],

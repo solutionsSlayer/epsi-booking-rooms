@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * translation router
+ * booking router
  */
 
 const { createCoreRouter } = require('@strapi/strapi').factories;
@@ -9,18 +9,18 @@ const { createCoreRouter } = require('@strapi/strapi').factories;
 module.exports = {
   routes: [
     {
-      method: 'GET',
+      method: 'POST',
       path: '/bookings',
-      handler: 'translation.find',
+      handler: 'booking.create',
       config: {
         policies: [],
         middlewares: [],
       },
     },
     {
-      method: 'POST',
+      method: 'GET',
       path: '/bookings',
-      handler: 'translation.create',
+      handler: 'booking.getBookings',
       config: {
         policies: [],
         middlewares: [],

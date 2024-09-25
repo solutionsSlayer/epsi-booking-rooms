@@ -19,11 +19,11 @@
         "ADMIN"
       ]
     },
-    "app_user": {
+    "app_users": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "oneToMany",
       "target": "api::app-user.app-user",
-      "inversedBy": "app_roles"
+      "mappedBy": "app_role"
     }
   }
 }

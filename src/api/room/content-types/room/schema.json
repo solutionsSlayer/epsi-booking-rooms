@@ -4,38 +4,37 @@
   "info": {
     "singularName": "room",
     "pluralName": "rooms",
-    "displayName": "Room"
+    "displayName": "Room",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
+    "building": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::building.building",
+      "inversedBy": "rooms"
+    },
     "availableSeats": {
       "type": "integer"
     },
     "name": {
       "type": "string"
     },
-    "roomType": {
-      "type": "enumeration",
-      "enum": [
-        "LAB",
-        "MEETING",
-        "AMPHI"
-      ]
-    },
-    "booking": {
+    "bookings": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::translation.translation",
+      "relation": "oneToMany",
+      "target": "api::booking.booking",
       "mappedBy": "room"
     },
-    "building": {
+    "availabilities": {
       "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::building.building",
-      "inversedBy": "rooms"
+      "relation": "oneToMany",
+      "target": "api::availability.availability",
+      "mappedBy": "room"
     }
   }
 }

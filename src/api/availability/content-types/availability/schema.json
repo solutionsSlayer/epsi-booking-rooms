@@ -1,0 +1,30 @@
+{
+    "kind": "collectionType",
+    "collectionName": "availabilities",
+    "info": {
+      "singularName": "availability",
+      "pluralName": "availabilities",
+      "displayName": "Availability"
+    },
+    "options": {
+      "draftAndPublish": true
+    },
+    "attributes": {
+      "room": {
+        "type": "relation",
+        "relation": "manyToOne",
+        "target": "api::room.room",
+        "inversedBy": "availabilities"
+      },
+      "startTime": {
+        "type": "datetime"
+      },
+      "endTime": {
+        "type": "datetime"
+      },
+      "isBooked": {
+        "type": "boolean",
+        "default": false
+      }
+    }
+  }

@@ -28,6 +28,9 @@
       "relation": "oneToMany",
       "target": "api::room.room",
       "mappedBy": "building"
+    },
+    "url": {
+      "type": "string"
     }
   }
 }

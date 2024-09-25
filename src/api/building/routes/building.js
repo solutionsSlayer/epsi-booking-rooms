@@ -53,5 +53,14 @@ module.exports = {
           middlewares: [],
         },
     },
+    {
+      method: 'DELETE',
+      path: '/rooms',
+      handler: 'building.deleteAllRooms',
+      config: {
+        policies: [],
+        middlewares: [],
+      },
+    },
   ],
 };
