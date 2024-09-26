@@ -1,6 +1,7 @@
 'use strict';
 
 const { createCoreService } = require('@strapi/strapi').factories;
+const moment = require('moment-timezone');
 
 module.exports = createCoreService('api::availability.availability', ({ strapi }) => ({
   async getAvailabilities(startDate, endDate) {
@@ -17,81 +18,32 @@ module.exports = createCoreService('api::availability.availability', ({ strapi }
   },
 
   async updateAvailabilityAfterBooking(roomId, startTime, endTime) {
-    console.log(`Updating availability for room ${roomId} from ${startTime} to ${endTime}`);
+    const utcStartTime = moment(startTime).utc();
+    const utcEndTime = moment(endTime).utc();
 
-    const moment = require('moment');
-    const start = moment(startTime);
-    const end = moment(endTime);
+    console.log(`Updating availability for room ${roomId} from ${utcStartTime.format()} to ${utcEndTime.format()}`);
 
-    const availabilities = await strapi.db.query('api::availability.availability').findMany({
+    const availability = await strapi.db.query('api::availability.availability').findOne({
       where: {
         room: roomId,
-        $or: [
-          { startTime: { $lt: end.toDate() }, endTime: { $gt: start.toDate() } },
-          { startTime: { $gte: start.toDate(), $lt: end.toDate() } },
-          { endTime: { $gt: start.toDate(), $lte: end.toDate() } },
-        ],
+        startTime: { $lte: utcEndTime.toDate() },
+        endTime: { $gte: utcStartTime.toDate() },
         isBooked: false,
       },
-      populate: ['room'],
     });
 
-    console.log(`Found ${availabilities.length} availabilities to update`);
+    console.log('Availability:', availability);
 
-    for (const availability of availabilities) {
-      console.log(`Processing availability ${availability.id}: ${availability.startTime} - ${availability.endTime}`);
-      const availStart = moment(availability.startTime);
-      const availEnd = moment(availability.endTime);
-
-      if (availStart.isBefore(start) && availEnd.isAfter(end)) {
-        // Split the availability
-        await strapi.entityService.create('api::availability.availability', {
-          data: {
-            room: roomId,
-            startTime: availStart.toDate(),
-            endTime: start.toDate(),
-            isBooked: false,
-          },
-        });
-
-        await strapi.entityService.create('api::availability.availability', {
-          data: {
-            room: roomId,
-            startTime: end.toDate(),
-            endTime: availEnd.toDate(),
-            isBooked: false,
-          },
-        });
-
-        await strapi.entityService.update('api::availability.availability', availability.id, {
-          data: { 
-            startTime: start.toDate(),
-            endTime: end.toDate(),
-            isBooked: true,
-          },
-        });
-      } else if (availStart.isBefore(start)) {
-        // Update the existing availability to end at the booking start time
-        await strapi.entityService.update('api::availability.availability', availability.id, {
-          data: { 
-            endTime: start.toDate(),
-          },
-        });
-      } else if (availEnd.isAfter(end)) {
-        // Update the existing availability to start at the booking end time
-        await strapi.entityService.update('api::availability.availability', availability.id, {
-          data: { 
-            startTime: end.toDate(),
-          },
-        });
-      } else {
-        // Mark the availability as booked
-        await strapi.entityService.update('api::availability.availability', availability.id, {
-          data: { isBooked: true },
-        });
-      }
+    if (availability) {
+      const updatedAvailability = await strapi.entityService.update('api::availability.availability', availability.id, {
+        data: { isBooked: true },
+      });
+      
+      console.log(`Updated availability ${availability.id} to booked`);
+      console.log('Updated availability:', updatedAvailability);
+    } else {
+      console.log('No matching availability found');
+      throw new Error('No matching availability found');
     }
-
-    console.log('Finished updating availabilities');
   },
 }));
