@@ -26,8 +26,8 @@ module.exports = createCoreService('api::availability.availability', ({ strapi }
     const availability = await strapi.db.query('api::availability.availability').findOne({
       where: {
         room: roomId,
-        startTime: { $lte: utcEndTime.toDate() },
-        endTime: { $gte: utcStartTime.toDate() },
+        startTime: utcStartTime.toDate(),
+        endTime: utcEndTime.toDate(),
         isBooked: false,
       },
     });
